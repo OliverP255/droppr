@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>DROPPR Archive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DROPPR - Past Events</title>
+
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
   <style>
     * {
       margin: 0;
@@ -12,280 +16,302 @@
     }
 
     body {
-      background: #000;
-      color: #fff;
       font-family: 'Space Grotesk', sans-serif;
-      padding: 40px;
+      background-color: #000;
+      color: #fff;
       line-height: 1.6;
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
+      padding: 0 20px;
     }
 
-    .title {
+    header {
+      text-align: center;
+      padding: 40px 0 30px;
+      border-bottom: 1px solid #333;
+      position: relative;
+    }
+
+    .logo {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 3rem;
+      letter-spacing: -1px;
+      color: #fff;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      background: #333;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: #555;
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 12px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .search-input,
+    .filter-select {
+      background: #111;
+      border: 1px solid #444;
+      color: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .page-title {
       font-family: 'Unbounded', sans-serif;
       font-size: 2.5rem;
       text-align: center;
-      margin-bottom: 40px;
+      margin: 40px 0;
     }
 
-    .articles {
+    .events-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 25px;
+      padding: 20px 0 60px;
     }
 
-    .card {
+    .event-card {
       background: #111;
-      border: 1px solid #333;
       border-radius: 12px;
       overflow: hidden;
+      border: 1px solid #333;
       transition: all 0.3s ease;
+      position: relative;
     }
 
-    .card:hover {
+    .event-card:hover {
       transform: translateY(-5px);
       border-color: #555;
       box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
     }
 
-    .card img {
+    .event-image {
       width: 100%;
       height: 220px;
       object-fit: cover;
     }
 
-    .card-content {
+    .event-content {
       padding: 20px;
     }
 
-    .card-title {
+    .event-date {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .event-title {
       font-family: 'Unbounded', sans-serif;
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       margin-bottom: 12px;
       line-height: 1.3;
     }
 
-    .card-desc {
-      color: #ccc;
+    .event-desc {
       font-size: 0.95rem;
+      color: #ccc;
+      margin-bottom: 15px;
       line-height: 1.5;
     }
 
-    .back {
-      display: inline-block;
-      margin-bottom: 30px;
-      background: #333;
-      color: #fff;
-      padding: 12px 20px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: background 0.3s ease;
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .back:hover {
-      background: #555;
-    }
-
-    .date-badge {
-      background: #444;
-      color: #ccc;
-      padding: 4px 12px;
+    .tag {
+      font-size: 11px;
+      padding: 6px 12px;
       border-radius: 15px;
-      font-size: 12px;
-      margin-bottom: 8px;
-      display: inline-block;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tag.this-week {
+      background: #ff4444;
+      color: #fff;
+    }
+
+    .tag.pop-up {
+      background: #0066cc;
+      color: #fff;
+    }
+
+    .no-results {
+      text-align: center;
+      color: #888;
+      margin: 60px 0;
+      font-size: 1.1rem;
+    }
+
+    footer {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      padding: 30px;
+      border-top: 1px solid #333;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <a href="index.html" class="back">← Back to Home</a>
-    <div class="title">Past Events Archive</div>
-    <div class="articles">
-      <div class="card">
-        <img src="https://cdn.shopify.com/s/files/1/0086/0795/7054/files/central-cee-doja.jpg" alt="Corteiz x Central Cee">
-        <div class="card-content">
-          <div class="date-badge">July 2024</div>
-          <h3 class="card-title">Corteiz x Central Cee Video Premiere</h3>
-          <p class="card-desc">Exclusive premiere event for Central Cee's new track featuring Corteiz custom design and limited merchandise.</p>
-        </div>
-      </div>
-      
-      <div class="card">
-        <img src="https://static.highsnobiety.com/thumbor/nW4O2nWYvS6zLG8UmY8uA45b9do=/1600x1067/static.highsnobiety.com/wp-content/uploads/2022/08/09114526/corteiz-holiday-drop-2022-release-info-01.jpg" alt="Holiday Drop">
-        <div class="card-content">
-          <div class="date-badge">December 2024</div>
-          <h3 class="card-title">Corteiz Holiday Drop 2024</h3>
-          <p class="card-desc">Winter collection drop featuring fleece sets, balaclavas and down jackets that sold out within minutes.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/05/off-white-virgil-abloh-archive-sample-sale-1.jpg" alt="Off-White Sample Sale">
-        <div class="card-content">
-          <div class="date-badge">June 2024</div>
-          <h3 class="card-title">Off-White Archive Sample Sale</h3>
-          <p class="card-desc">Rare Virgil Abloh archive pieces and unreleased Off-White designs at exclusive London sample sale.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/07/travis-scott-jordan-1-low-olive-release-1.jpg" alt="Travis Scott Jordan">
-        <div class="card-content">
-          <div class="date-badge">May 2024</div>
-          <h3 class="card-title">Travis Scott x Jordan 1 Low 'Mocha'</h3>
-          <p class="card-desc">Highly anticipated Travis Scott collaboration that broke resale records on launch day.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/08/supreme-timberland-boot-collaboration-1.jpg" alt="Supreme Timberland">
-        <div class="card-content">
-          <div class="date-badge">March 2024</div>
-          <h3 class="card-title">Supreme x Timberland Boot Drop</h3>
-          <p class="card-desc">Limited edition Supreme Timberland boots that caused website crashes and long queues worldwide.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/04/gallery-dept-los-angeles-pop-up-1.jpg" alt="Gallery Dept Pop-up">
-        <div class="card-content">
-          <div class="date-badge">April 2024</div>
-          <h3 class="card-title">GALLERY DEPT. London Pop-up</h3>
-          <p class="card-desc">Three-day pop-up featuring exclusive London-themed pieces and live customization services.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/06/yeezy-boost-350-v2-granite-release-1.jpg" alt="Yeezy 350 V2">
-        <div class="card-content">
-          <div class="date-badge">February 2024</div>
-          <h3 class="card-title">Yeezy Boost 350 V2 'Bone'</h3>
-          <p class="card-desc">Final Yeezy release under adidas partnership featuring neutral bone colorway.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/09/palace-autumn-collection-1.jpg" alt="Palace Drop">
-        <div class="card-content">
-          <div class="date-badge">September 2024</div>
-          <h3 class="card-title">Palace Winter 2024 Drop</h3>
-          <p class="card-desc">Palace's winter collection featuring collaboration pieces and signature tri-ferg graphics.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/07/stussy-nike-air-force-1-low-fossil-stone-release-info-1.jpg" alt="Stussy Nike">
-        <div class="card-content">
-          <div class="date-badge">August 2024</div>
-          <h3 class="card-title">Stussy x Nike AF1 'Fossil Stone'</h3>
-          <p class="card-desc">Premium leather Air Force 1 collaboration with hand-painted Stussy branding details.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/04/kaws-uniqlo-ut-companion-collection-1.jpg" alt="KAWS Uniqlo">
-        <div class="card-content">
-          <div class="date-badge">October 2024</div>
-          <h3 class="card-title">KAWS x Uniqlo Holiday Collection</h3>
-          <p class="card-desc">Limited holiday-themed KAWS Companion graphics on premium Uniqlo UT blanks.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/06/stone-island-shadow-project-ss23-1.jpg" alt="Stone Island Shadow">
-        <div class="card-content">
-          <div class="date-badge">November 2024</div>
-          <h3 class="card-title">Stone Island Shadow Project FW24</h3>
-          <p class="card-desc">Technical fall/winter collection featuring innovative materials and futuristic silhouettes.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/07/bape-marvel-spider-man-collection-1.jpg" alt="BAPE Marvel">
-        <div class="card-content">
-          <div class="date-badge">January 2024</div>
-          <h3 class="card-title">BAPE x Marvel Spider-Verse Collection</h3>
-          <p class="card-desc">Limited collaboration celebrating Spider-Man with BAPE's signature camo and shark motifs.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/05/neighborhood-adidas-gazelle-collaboration-1.jpg" alt="Neighborhood Gazelle">
-        <div class="card-content">
-          <div class="date-badge">July 2024</div>
-          <h3 class="card-title">NEIGHBORHOOD x Adidas Gazelle 'Tokyo'</h3>
-          <p class="card-desc">Premium leather Gazelle collaboration featuring Tokyo-inspired colorway and co-branding.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/06/chrome-hearts-matty-boy-collection-1.jpg" alt="Chrome Hearts Matty Boy">
-        <div class="card-content">
-          <div class="date-badge">September 2024</div>
-          <h3 class="card-title">Chrome Hearts x Matty Boy Archives</h3>
-          <p class="card-desc">Exclusive graphic collection featuring Matty Boy's iconic artwork on premium Chrome Hearts pieces.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/08/human-made-nigo-heart-collection-1.jpg" alt="Human Made Heart">
-        <div class="card-content">
-          <div class="date-badge">October 2024</div>
-          <h3 class="card-title">HUMAN MADE Heart Pop-up Tokyo</h3>
-          <p class="card-desc">Nigo's HUMAN MADE opened exclusive Tokyo pop-up featuring heart motif collection and cafe.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/08/wtaps-military-collection-1.jpg" alt="WTAPS Military">
-        <div class="card-content">
-          <div class="date-badge">August 2024</div>
-          <h3 class="card-title">WTAPS Military Surplus Collection</h3>
-          <p class="card-desc">Military-inspired collection featuring authentic surplus materials and tactical designs.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/06/mastermind-japan-collection-1.jpg" alt="Mastermind Japan">
-        <div class="card-content">
-          <div class="date-badge">November 2024</div>
-          <h3 class="card-title">Mastermind Japan 20th Anniversary</h3>
-          <p class="card-desc">Special anniversary collection celebrating 20 years of Mastermind's signature skull aesthetic.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/07/bape-shark-hoodie-collection-1.jpg" alt="BAPE Shark">
-        <div class="card-content">
-          <div class="date-badge">December 2024</div>
-          <h3 class="card-title">BAPE Shark Hoodie Anniversary</h3>
-          <p class="card-desc">20th anniversary shark hoodie collection featuring new colorways and premium materials.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/08/carhartt-wip-collection-1.jpg" alt="Carhartt WIP">
-        <div class="card-content">
-          <div class="date-badge">June 2024</div>
-          <h3 class="card-title">Carhartt WIP Heritage Workshop</h3>
-          <p class="card-desc">Interactive workshop teaching workwear construction techniques with vintage Carhartt pieces.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://hypebeast.com/image/2023/09/kapital-sashiko-denim-1.jpg" alt="Kapital Sashiko">
-        <div class="card-content">
-          <div class="date-badge">May 2024</div>
-          <h3 class="card-title">Kapital Sashiko Masterclass</h3>
-          <p class="card-desc">Traditional Japanese sashiko repair workshop featuring Kapital's signature boro textiles.</p>
-        </div>
+  <header>
+    <a href="index.html" class="back-btn">← Return to Home</a>
+    <div class="container">
+      <h1 class="logo">DROPPR</h1>
+    </div>
+    <div class="container">
+      <div class="search-bar">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search pop-ups...">
+        <select class="filter-select" id="tagFilter">
+          <option value="all">All Tags</option>
+          <option value="POP-UP">Pop-Ups</option>
+          <option value="DROP">Drops</option>
+		  <option value="ARCHIVED">Archived</option>
+        </select>
       </div>
     </div>
+  </header>
+
+  <div class="container">
+    <h2 class="page-title">Past Events</h2>
+    <div class="events-grid" id="eventsGrid"></div>
   </div>
+
+  <footer>
+    &copy; 2025 DROPPR. Built for streetwear enthusiasts.
+  </footer>
+
+  <!-- Include events data -->
+  <script src="eventsData.js"></script>
+
+  <script>
+    function formatDate(dateString) {
+      const eventDate = new Date(dateString);
+      const today = new Date('2025-08-06'); // Current date
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      
+      if (eventDate.toDateString() === today.toDateString()) {
+        return 'Today';
+      } else if (eventDate.toDateString() === tomorrow.toDateString()) {
+        return 'Tomorrow';
+      } else {
+        return eventDate.toLocaleDateString('en-GB', { 
+          month: 'short', 
+          day: 'numeric' 
+        });
+      }
+    }
+
+    function eventMatches(event, query, tag) {
+      const searchText = (event.title + ' ' + event.description + ' ' + event.tags.join(' ')).toLowerCase();
+      const matchesText = !query || searchText.includes(query.toLowerCase());
+
+      if (tag === "all") return matchesText;
+      
+      const matchesTag = event.tags.some(eventTag => 
+        eventTag.toLowerCase().includes(tag.toLowerCase()) || 
+        tag.toLowerCase().includes(eventTag.toLowerCase())
+      );
+
+      return matchesText && matchesTag;
+    }
+
+    function renderEvents(events) {
+      const grid = document.getElementById('eventsGrid');
+      
+      if (events.length === 0) {
+        grid.innerHTML = '<div class="no-results">No pop-up events found.</div>';
+        return;
+      }
+
+      grid.innerHTML = events.map(event => {
+        const tagsHtml = event.tags.map(tag => {
+          let tagClass = 'tag';
+          if (tag === 'THIS WEEK 🔥') tagClass += ' this-week';
+          else if (tag === 'POP-UP') tagClass += ' pop-up';
+		  else if (tag == 'ARCHIVED') tagClass += ' archived'
+		  else if (tag == 'DROP') tagClass += ' drop'
+			
+          return `<span class="${tagClass}">${tag}</span>`;
+        }).join('');
+
+        return `
+          <div class="event-card">
+            <img src="${event.image}" alt="${event.title}" class="event-image">
+            <div class="event-date">${formatDate(event.date)}</div>
+            <div class="event-content">
+              <h3 class="event-title">${event.title}</h3>
+              <p class="event-desc">${event.description}</p>
+              <div class="tags">
+                ${tagsHtml}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterAndRenderEvents() {
+      const query = document.getElementById("searchInput").value.trim();
+      const tag = document.getElementById("tagFilter").value;
+
+      // Filter events that have "POP-UP" tag
+      let popupEvents = eventsData.filter(event => 
+        event.tags.includes("ARCHIVED")
+      );
+
+      // Apply search and tag filters
+      if (query || tag !== "all") {
+        popupEvents = popupEvents.filter(event => eventMatches(event, query, tag));
+      }
+
+      // Sort by date (upcoming first)
+      popupEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      renderEvents(popupEvents);
+    }
+
+    // Initial render
+    filterAndRenderEvents();
+
+    // Event listeners
+    document.getElementById("searchInput").addEventListener("keypress", function (e) {
+      if (e.key === "Enter") filterAndRenderEvents();
+    });
+
+    document.getElementById("searchInput").addEventListener("input", filterAndRenderEvents);
+    document.getElementById("tagFilter").addEventListener("change", filterAndRenderEvents);
+  </script>
 </body>
 </html>

@@ -174,46 +174,60 @@
 
     .events-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 25px;
       margin-top: 40px;
     }
 
-    .card, .event-card {
+    .event-card {
       background: #111;
       border: 1px solid #333;
       border-radius: 12px;
       overflow: hidden;
       transition: all 0.3s ease;
-      cursor: default;
+      position: relative;
     }
 
-    .card:hover, .event-card:hover {
-      transform: translateY(-4px);
+    .event-card:hover {
+      transform: translateY(-5px);
       border-color: #555;
+      box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
     }
 
-    .card img, .event-card img {
+    .event-image {
       width: 100%;
-      height: 200px;
+      height: 220px;
       object-fit: cover;
     }
 
-    .card-content, .event-content {
-      padding: 16px;
+    .event-content {
+      padding: 20px;
     }
 
-    .card-title, .event-title {
-      font-family: 'Unbounded', sans-serif;
-      font-size: 1.2rem;
-      margin-bottom: 8px;
+    .event-date {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0, 0, 0, 0.8);
       color: #fff;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
     }
 
-    .card-desc, .event-desc {
+    .event-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .event-desc {
       font-size: 0.95rem;
       color: #ccc;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
+      line-height: 1.5;
     }
 
     .tags {
@@ -227,8 +241,22 @@
       padding: 6px 12px;
       border-radius: 15px;
       font-weight: 500;
-      background: #444;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tag.this-week {
+      background: #ff4444;
+      color: #fff;
+    }
+
+    .tag.drop {
+      background: #00cc66;
+      color: #fff;
+    }
+
+    .tag.pop-up {
+      background: #0066cc;
       color: #fff;
     }
 
@@ -272,10 +300,9 @@
         <input type="text" class="search-input" id="searchInput" placeholder="Search events...">
         <select class="filter-select" id="tagFilter">
           <option value="all">All Tags</option>
-          <option value="this-week">This Week</option>
-          <option value="archived">Archived</option>
-          <option value="pop-up">Pop-Up</option>
-          <option value="drop">Drop</option>
+          <option value="THIS WEEK 🔥">This Week</option>
+          <option value="DROP">Drops</option>
+          <option value="POP-UP">Pop-Ups</option>
         </select>
       </div>
     </div>
@@ -286,7 +313,7 @@
     <div class="main-content">
       <div class="category-grid">
         <div class="category-box" onclick="window.location.href='popups.html'">
-          <img src="https://highxtar.com/wp-content/uploads/2023/03/highxtar-corteiz-nuevo-supreme-1.jpg" alt="Pop-ups" class="category-image">
+          <img src="https://culted.com/wp-content/uploads/2023/07/Artboard-2-28-819x1024.jpg" alt="Pop-ups" class="category-image">
           <div class="category-overlay">
             <h2 class="category-title">Pop-Ups</h2>
           </div>
@@ -301,146 +328,144 @@
     </div>
   </div>
 
+  <!-- Include events data -->
+  <script src="eventsData.js"></script>
+
   <script>
-    async function fetchEventCardsFrom(url, selector) {
-      try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error('Network response was not ok');
-        const html = await res.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        return Array.from(doc.querySelectorAll(selector));
-      } catch (error) {
-        console.error('Fetch error:', error);
-        return [];
+    function formatDate(dateString) {
+      const eventDate = new Date(dateString);
+      const today = new Date('2025-08-06'); // Current date
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      
+      if (eventDate.toDateString() === today.toDateString()) {
+        return 'Today';
+      } else if (eventDate.toDateString() === tomorrow.toDateString()) {
+        return 'Tomorrow';
+      } else {
+        return eventDate.toLocaleDateString('en-GB', { 
+          month: 'short', 
+          day: 'numeric' 
+        });
       }
     }
 
-    function extractEventData(card) {
-      // Extract data based on your original drops.html and popups.html structure
-      // Adjust selectors as per actual HTML in those pages
-
-      const titleElem = card.querySelector('h2, .card-title, .event-title');
-      const title = titleElem ? titleElem.textContent.trim() : '';
-
-      const descElem = card.querySelector('p, .card-desc, .event-desc');
-      const description = descElem ? descElem.textContent.trim() : '';
-
-      const tagsElems = card.querySelectorAll('.tag');
-      const tags = Array.from(tagsElems).map(t => t.textContent.trim().toLowerCase());
-
-      const imgElem = card.querySelector('img');
-      const image = imgElem ? imgElem.src : '';
-
-      const dateElem = card.querySelector('.date, time, .event-date');
-      const date = dateElem ? dateElem.textContent.trim() : '';
-
-      return { title, description, tags, image, date };
+    function isThisWeek(dateString) {
+      const eventDate = new Date(dateString);
+      const today = new Date('2025-08-06');
+      const weekFromNow = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+      return eventDate >= today && eventDate <= weekFromNow;
     }
 
-    function filterEvents(events, searchTerm, tagFilter) {
-      searchTerm = searchTerm.toLowerCase();
+    function eventMatches(event, query, tag) {
+      const searchText = (event.title + ' ' + event.description + ' ' + event.tags.join(' ')).toLowerCase();
+      const matchesText = !query || searchText.includes(query.toLowerCase());
 
-      return events.filter(event => {
-        const matchesSearch = event.title.toLowerCase().includes(searchTerm) ||
-                              event.description.toLowerCase().includes(searchTerm) ||
-                              event.tags.some(tag => tag.includes(searchTerm));
-        if (!matchesSearch) return false;
+      if (tag === "all") return matchesText;
+      
+      const matchesTag = event.tags.some(eventTag => 
+        eventTag.toLowerCase().includes(tag.toLowerCase()) || 
+        tag.toLowerCase().includes(eventTag.toLowerCase())
+      );
 
-        if (tagFilter === 'all') return true;
-
-        if (tagFilter === 'this-week') {
-          // Implement your "this week" logic here if you want (optional)
-          return true; // Placeholder: show all for now
-        }
-
-        if (tagFilter === 'archived') {
-          return event.tags.includes('archived');
-        }
-
-        if (tagFilter === 'pop-up') {
-          return event.tags.includes('pop-up');
-        }
-
-        if (tagFilter === 'drop') {
-          return event.tags.includes('drop');
-        }
-
-        return true;
-      });
+      return matchesText && matchesTag;
     }
 
-    function renderEvents(events) {
-      const container = document.getElementById('searchResults');
+    function hideHomepageGrid() {
+      const grid = document.querySelector('.category-grid');
+      if (grid) grid.style.display = 'none';
+    }
+
+    function showHomepageGrid() {
+      const grid = document.querySelector('.category-grid');
+      if (grid) grid.style.display = 'grid';
+    }
+
+    function renderSearchResults(events) {
+      const container = document.getElementById("searchResults");
       container.innerHTML = '';
-
+      
       if (events.length === 0) {
-        container.innerHTML = `<p style="text-align:center; font-size:18px; padding: 40px 0;">No results found</p>`;
+        container.innerHTML = '<p style="text-align:center;color:#888;margin-top:40px;">No results found.</p>';
         return;
       }
 
-      const grid = document.createElement('div');
-      grid.className = 'events-grid';
+      const wrapper = document.createElement('div');
+      wrapper.className = 'events-grid';
 
       events.forEach(event => {
-        const card = document.createElement('div');
-        card.className = 'event-card';
+        const eventCard = document.createElement('div');
+        eventCard.className = 'event-card';
+        
+        const tagsHtml = event.tags.map(tag => {
+          let tagClass = 'tag';
+          if (tag === 'THIS WEEK 🔥') tagClass += ' this-week';
+          else if (tag === 'DROP') tagClass += ' drop';
+          else if (tag === 'POP-UP') tagClass += ' pop-up';
+          
+          return `<span class="${tagClass}">${tag}</span>`;
+        }).join('');
 
-        card.innerHTML = `
-          ${event.image ? `<img src="${event.image}" alt="${event.title}">` : ''}
+        eventCard.innerHTML = `
+          <img src="${event.image}" alt="${event.title}" class="event-image">
+          <div class="event-date">${formatDate(event.date)}</div>
           <div class="event-content">
             <h3 class="event-title">${event.title}</h3>
             <p class="event-desc">${event.description}</p>
-            <div class="tags">${event.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
+            <div class="tags">
+              ${tagsHtml}
+            </div>
           </div>
         `;
 
-        grid.appendChild(card);
+        wrapper.appendChild(eventCard);
       });
 
-      container.appendChild(grid);
+      container.appendChild(wrapper);
     }
 
-    async function searchEvents() {
-      const searchInput = document.getElementById('searchInput').value.trim();
-      const tagFilter = document.getElementById('tagFilter').value;
+    function handleSearch() {
+      const query = document.getElementById("searchInput").value.trim();
+      const tag = document.getElementById("tagFilter").value;
 
-      // Fetch event cards from both pages
-      const [popupsCards, dropsCards] = await Promise.all([
-        fetchEventCardsFrom('popups.html', '.card, .event-card'),
-        fetchEventCardsFrom('drops.html', '.card, .event-card')
-      ]);
-
-      // Extract event data
-      const popupsEvents = popupsCards.map(extractEventData);
-      const dropsEvents = dropsCards.map(extractEventData);
-      const allEvents = [...popupsEvents, ...dropsEvents];
-
-      const filteredEvents = filterEvents(allEvents, searchInput, tagFilter);
-
-      renderEvents(filteredEvents);
-
-      // Show or hide original category grid based on search input
-      const categoryGrid = document.querySelector('.category-grid');
-      if (searchInput.length > 0) {
-        categoryGrid.style.display = 'none';
-      } else {
-        categoryGrid.style.display = 'grid';
-        document.getElementById('searchResults').innerHTML = '';
+      if (!query && tag === "all") {
+        showHomepageGrid();
+        document.getElementById("searchResults").innerHTML = '';
+        return;
       }
+
+      // Filter events from eventsData
+      const filteredEvents = eventsData.filter(event => eventMatches(event, query, tag));
+
+      // Sort by date (upcoming first)
+      filteredEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      hideHomepageGrid();
+      renderSearchResults(filteredEvents);
     }
 
-    document.getElementById('searchInput').addEventListener('input', () => {
-      searchEvents();
+    // Event listeners
+    document.getElementById("searchInput").addEventListener("keypress", function (e) {
+      if (e.key === "Enter") handleSearch();
     });
 
-    document.getElementById('tagFilter').addEventListener('change', () => {
-      searchEvents();
+    document.getElementById("searchInput").addEventListener("input", function() {
+      // Real-time search as user types
+      const query = this.value.trim();
+      const tag = document.getElementById("tagFilter").value;
+      if (query.length > 0 || tag !== "all") {
+        handleSearch();
+      } else {
+        showHomepageGrid();
+        document.getElementById("searchResults").innerHTML = '';
+      }
     });
+
+    document.getElementById("tagFilter").addEventListener("change", handleSearch);
   </script>
 
   <footer>
-    &copy; 2025 DROPPR — Built for streetwear enthusiasts.
+    &copy; 2025 DROPPR. Built for streetwear enthusiasts.
   </footer>
 </body>
 </html>

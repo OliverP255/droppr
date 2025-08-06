@@ -59,6 +59,24 @@
       background: #555;
     }
 
+    .search-bar {
+      display: flex;
+      gap: 12px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .search-input,
+    .filter-select {
+      background: #111;
+      border: 1px solid #444;
+      color: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
     .page-title {
       font-family: 'Unbounded', sans-serif;
       font-size: 2.5rem;
@@ -149,6 +167,13 @@
       color: #fff;
     }
 
+    .no-results {
+      text-align: center;
+      color: #888;
+      margin: 60px 0;
+      font-size: 1.1rem;
+    }
+
     footer {
       text-align: center;
       color: #666;
@@ -164,6 +189,16 @@
     <div class="container">
       <h1 class="logo">DROPPR</h1>
     </div>
+    <div class="container">
+      <div class="search-bar">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search drops...">
+        <select class="filter-select" id="tagFilter">
+          <option value="all">All Tags</option>
+          <option value="THIS WEEK 🔥">This Week</option>
+          <option value="DROP">Drops</option>
+        </select>
+      </div>
+    </div>
   </header>
 
   <div class="container">
@@ -175,57 +210,105 @@
     &copy; 2025 DROPPR. Built for streetwear enthusiasts.
   </footer>
 
+  <!-- Include events data -->
+  <script src="eventsData.js"></script>
+
   <script>
-    const dropEvents = [
-      {
-        title: "Travis Scott x Jordan 1 Low 'Olive'",
-        description: "Highly anticipated Travis Scott collaboration featuring olive green colorway with signature backwards Swoosh.",
-        image: "https://hypebeast.com/image/2023/07/travis-scott-jordan-1-low-olive-release-1.jpg",
-        date: "2025-08-07",
-        dateDisplay: "Tomorrow"
-      },
-      {
-        title: "Corteiz x Nike Air Max 95 'London'",
-        description: "First official Nike collaboration from Corteiz featuring London-inspired colorway and exclusive packaging.",
-        image: "https://hypebeast.com/image/2023/03/corteiz-nike-air-max-95-release-info-0.jpg",
-        date: "2025-08-08",
-        dateDisplay: "Aug 8"
-      },
-      {
-        title: "Supreme Week 1 Drop - SS25",
-        description: "Season opener featuring box logo tees, accessories, and the highly anticipated Supreme x Timberland boots.",
-        image: "https://hypebeast.com/image/2023/08/supreme-timberland-boot-collaboration-1.jpg",
-        date: "2025-08-09",
-        dateDisplay: "Aug 9"
-      },
-      {
-        title: "Yeezy Boost 350 V2 'Granite'",
-        description: "Latest Yeezy 350 V2 release featuring granite grey primeknit upper with translucent stripe detail.",
-        image: "https://hypebeast.com/image/2023/06/yeezy-boost-350-v2-granite-release-1.jpg",
-        date: "2025-08-10",
-        dateDisplay: "Aug 10"
-      },
-      {
-        title: "Palace Autumn Drop 2025",
-        description: "Palace's autumn collection drops featuring signature graphics on outerwear, knitwear, and accessories.",
-        image: "https://hypebeast.com/image/2023/09/palace-autumn-collection-1.jpg",
-        date: "2025-08-12",
-        dateDisplay: "Aug 12"
-      },
-      {
-        title: "Off-White x Converse Chuck 70 'The Ten'",
-        description: "Posthumous Virgil Abloh design featuring deconstructed Chuck 70 with signature zip-tie and text.",
-        image: "https://hypebeast.com/image/2023/05/off-white-converse-chuck-70-the-ten-1.jpg",
-        date: "2025-08-14",
-        dateDisplay: "Aug 14"
-      },
-      {
-        title: "Stone Island Shadow Project AW25",
-        description: "Technical autumn/winter drop featuring innovative fabrics and futuristic silhouettes in muted tones.",
-        image: "https://hypebeast.com/image/2023/06/stone-island-shadow-project-ss23-1.jpg",
-        date: "2025-08-15",
-        dateDisplay: "Aug 15"
-      },
-      {
-        title: "KAWS x Uniqlo UT Collection",
-        description: "Latest KAWS collaboration featuring Companion and B
+    function formatDate(dateString) {
+      const eventDate = new Date(dateString);
+      const today = new Date('2025-08-06'); // Current date
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      
+      if (eventDate.toDateString() === today.toDateString()) {
+        return 'Today';
+      } else if (eventDate.toDateString() === tomorrow.toDateString()) {
+        return 'Tomorrow';
+      } else {
+        return eventDate.toLocaleDateString('en-GB', { 
+          month: 'short', 
+          day: 'numeric' 
+        });
+      }
+    }
+
+    function eventMatches(event, query, tag) {
+      const searchText = (event.title + ' ' + event.description + ' ' + event.tags.join(' ')).toLowerCase();
+      const matchesText = !query || searchText.includes(query.toLowerCase());
+
+      if (tag === "all") return matchesText;
+      
+      const matchesTag = event.tags.some(eventTag => 
+        eventTag.toLowerCase().includes(tag.toLowerCase()) || 
+        tag.toLowerCase().includes(eventTag.toLowerCase())
+      );
+
+      return matchesText && matchesTag;
+    }
+
+    function renderEvents(events) {
+      const grid = document.getElementById('eventsGrid');
+      
+      if (events.length === 0) {
+        grid.innerHTML = '<div class="no-results">No drop events found.</div>';
+        return;
+      }
+
+      grid.innerHTML = events.map(event => {
+        const tagsHtml = event.tags.map(tag => {
+          let tagClass = 'tag';
+          if (tag === 'THIS WEEK 🔥') tagClass += ' this-week';
+          else if (tag === 'DROP') tagClass += ' drop';
+          
+          return `<span class="${tagClass}">${tag}</span>`;
+        }).join('');
+
+        return `
+          <div class="event-card">
+            <img src="${event.image}" alt="${event.title}" class="event-image">
+            <div class="event-date">${formatDate(event.date)}</div>
+            <div class="event-content">
+              <h3 class="event-title">${event.title}</h3>
+              <p class="event-desc">${event.description}</p>
+              <div class="tags">
+                ${tagsHtml}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterAndRenderEvents() {
+      const query = document.getElementById("searchInput").value.trim();
+      const tag = document.getElementById("tagFilter").value;
+
+      // Filter events that have "DROP" tag
+      let dropEvents = eventsData.filter(event => 
+        event.tags.includes("DROP")
+      );
+
+      // Apply search and tag filters
+      if (query || tag !== "all") {
+        dropEvents = dropEvents.filter(event => eventMatches(event, query, tag));
+      }
+
+      // Sort by date (upcoming first)
+      dropEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      renderEvents(dropEvents);
+    }
+
+    // Initial render
+    filterAndRenderEvents();
+
+    // Event listeners
+    document.getElementById("searchInput").addEventListener("keypress", function (e) {
+      if (e.key === "Enter") filterAndRenderEvents();
+    });
+
+    document.getElementById("searchInput").addEventListener("input", filterAndRenderEvents);
+    document.getElementById("tagFilter").addEventListener("change", filterAndRenderEvents);
+  </script>
+</body>
+</html>

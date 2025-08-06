@@ -59,6 +59,24 @@
       background: #555;
     }
 
+    .search-bar {
+      display: flex;
+      gap: 12px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .search-input,
+    .filter-select {
+      background: #111;
+      border: 1px solid #444;
+      color: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
     .page-title {
       font-family: 'Unbounded', sans-serif;
       font-size: 2.5rem;
@@ -144,9 +162,16 @@
       color: #fff;
     }
 
-    .tag.popup {
+    .tag.pop-up {
       background: #0066cc;
       color: #fff;
+    }
+
+    .no-results {
+      text-align: center;
+      color: #888;
+      margin: 60px 0;
+      font-size: 1.1rem;
     }
 
     footer {
@@ -164,6 +189,16 @@
     <div class="container">
       <h1 class="logo">DROPPR</h1>
     </div>
+    <div class="container">
+      <div class="search-bar">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search pop-ups...">
+        <select class="filter-select" id="tagFilter">
+          <option value="all">All Tags</option>
+          <option value="THIS WEEK 🔥">This Week</option>
+          <option value="POP-UP">Pop-Ups</option>
+        </select>
+      </div>
+    </div>
   </header>
 
   <div class="container">
@@ -175,176 +210,68 @@
     &copy; 2025 DROPPR. Built for streetwear enthusiasts.
   </footer>
 
-  <script>
-    const popupEvents = [
-      {
-        title: "Stussy x Nike Pop-up Experience",
-        description: "Exclusive pop-up featuring the latest Stussy x Nike collaboration with interactive installations and limited releases.",
-        image: "https://hypebeast.com/image/2023/07/stussy-nike-air-force-1-low-fossil-stone-release-info-1.jpg",
-        date: "2025-08-07",
-        dateDisplay: "Tomorrow"
-      },
-      {
-        title: "Corteiz Pop-up Store - Shoreditch",
-        description: "Three-day exclusive pop-up featuring the latest Corteiz drops with limited edition pieces only available in-store.",
-        image: "https://hypebeast.com/image/2023/07/corteiz-crtz-rtw-launch-london-pop-up-1.jpg",
-        date: "2025-08-08",
-        dateDisplay: "Aug 8"
-      },
-      {
-        title: "Off-White Sample Sale Pop-up",
-        description: "Rare sample sale featuring Virgil Abloh archive pieces and unreleased Off-White designs at Camden Market.",
-        image: "https://hypebeast.com/image/2023/05/off-white-virgil-abloh-archive-sample-sale-1.jpg",
-        date: "2025-08-09",
-        dateDisplay: "Aug 9"
-      },
-      {
-        title: "GALLERY DEPT. Artist Showcase",
-        description: "Interactive pop-up combining art exhibition with exclusive GALLERY DEPT. pieces and customization station.",
-        image: "https://hypebeast.com/image/2023/04/gallery-dept-los-angeles-pop-up-1.jpg",
-        date: "2025-08-10",
-        dateDisplay: "Aug 10"
-      },
-      {
-        title: "Stone Island Shadow Project Launch",
-        description: "Tech-focused pop-up showcasing the latest Shadow Project innovations with AR try-on experiences.",
-        image: "https://hypebeast.com/image/2023/06/stone-island-shadow-project-ss23-1.jpg",
-        date: "2025-08-12",
-        dateDisplay: "Aug 12"
-      },
-      {
-        title: "Kith x New Balance Pop-up Lab",
-        description: "Collaborative space featuring the new Kith x New Balance collection with sneaker customization workshop.",
-        image: "https://hypebeast.com/image/2023/08/kith-new-balance-990v6-united-arrows-1.jpg",
-        date: "2025-08-14",
-        dateDisplay: "Aug 14"
-      },
-      {
-        title: "AWGE x Under Armour Experience",
-        description: "A$AP Rocky's AWGE collective presents exclusive Under Armour collaborations in immersive warehouse setting.",
-        image: "https://hypebeast.com/image/2023/03/awge-under-armour-socks-release-1.jpg",
-        date: "2025-08-15",
-        dateDisplay: "Aug 15"
-      },
-      {
-        title: "Fear of God ESSENTIALS Pop-up",
-        description: "Minimalist pop-up space showcasing the latest ESSENTIALS collection with exclusive London colorways.",
-        image: "https://hypebeast.com/image/2023/09/fear-of-god-essentials-fall-2023-1.jpg",
-        date: "2025-08-16",
-        dateDisplay: "Aug 16"
-      },
-      {
-        title: "Pleasures x Crocs Collaboration Launch",
-        description: "Punk-inspired pop-up featuring the unexpected Pleasures x Crocs collaboration with live tattooing.",
-        image: "https://hypebeast.com/image/2023/07/pleasures-crocs-collaboration-classic-clog-1.jpg",
-        date: "2025-08-18",
-        dateDisplay: "Aug 18"
-      },
-      {
-        title: "HUMAN MADE Heart Pop-up Cafe",
-        description: "Nigo's HUMAN MADE opens themed cafe pop-up with exclusive merchandise and Japanese street food.",
-        image: "https://hypebeast.com/image/2023/08/human-made-nigo-heart-collection-1.jpg",
-        date: "2025-08-20",
-        dateDisplay: "Aug 20"
-      },
-      {
-        title: "Brain Dead Optical Pop-up",
-        description: "Surreal pop-up experience featuring Brain Dead's latest optical collection with virtual reality elements.",
-        image: "https://hypebeast.com/image/2023/05/brain-dead-optical-collection-1.jpg",
-        date: "2025-08-22",
-        dateDisplay: "Aug 22"
-      },
-      {
-        title: "NEIGHBORHOOD x Converse Workshop",
-        description: "DIY workshop pop-up where visitors can customize NEIGHBORHOOD x Converse collaborations.",
-        image: "https://hypebeast.com/image/2023/04/neighborhood-converse-chuck-70-1.jpg",
-        date: "2025-08-25",
-        dateDisplay: "Aug 25"
-      },
-      {
-        title: "Rhude Racing Pop-up Garage",
-        description: "Automotive-themed pop-up showcasing Rhude's racing-inspired collection with vintage car displays.",
-        image: "https://hypebeast.com/image/2023/06/rhude-racing-collection-1.jpg",
-        date: "2025-08-28",
-        dateDisplay: "Aug 28"
-      },
-      {
-        title: "Union x Jordan Pop-up Museum",
-        description: "Museum-style pop-up celebrating Union LA's Jordan collaborations with historical sneaker exhibits.",
-        image: "https://hypebeast.com/image/2023/07/union-jordan-4-desert-moss-release-1.jpg",
-        date: "2025-09-01",
-        dateDisplay: "Sep 1"
-      },
-      {
-        title: "Chrome Hearts Jewelry Exhibition",
-        description: "Luxury pop-up exhibition featuring Chrome Hearts' finest jewelry pieces and leather goods.",
-        image: "https://hypebeast.com/image/2023/05/chrome-hearts-jewelry-collection-1.jpg",
-        date: "2025-09-05",
-        dateDisplay: "Sep 5"
-      },
-      {
-        title: "WTAPS Military Surplus Pop-up",
-        description: "Military-inspired pop-up featuring WTAPS latest collection in authentic army surplus store setting.",
-        image: "https://hypebeast.com/image/2023/08/wtaps-military-collection-1.jpg",
-        date: "2025-09-08",
-        dateDisplay: "Sep 8"
-      },
-      {
-        title: "Mastermind Japan Dark Pop-up",
-        description: "Gothic pop-up experience showcasing Mastermind Japan's signature skull motifs in blackout space.",
-        image: "https://hypebeast.com/image/2023/06/mastermind-japan-collection-1.jpg",
-        date: "2025-09-12",
-        dateDisplay: "Sep 12"
-      },
-      {
-        title: "BAPE Shark Pop-up Aquarium",
-        description: "Aquatic-themed pop-up featuring BAPE's shark hoodie collection with live shark tank installation.",
-        image: "https://hypebeast.com/image/2023/07/bape-shark-hoodie-collection-1.jpg",
-        date: "2025-09-15",
-        dateDisplay: "Sep 15"
-      },
-      {
-        title: "Carhartt WIP Workshop Pop-up",
-        description: "Functional workshop pop-up where visitors can learn workwear craftsmanship and customize Carhartt WIP pieces.",
-        image: "https://hypebeast.com/image/2023/08/carhartt-wip-collection-1.jpg",
-        date: "2025-09-20",
-        dateDisplay: "Sep 20"
-      },
-      {
-        title: "Kapital Sashiko Experience",
-        description: "Traditional Japanese pop-up teaching sashiko repair techniques on Kapital denim and textiles.",
-        image: "https://hypebeast.com/image/2023/09/kapital-sashiko-denim-1.jpg",
-        date: "2025-09-25",
-        dateDisplay: "Sep 25"
-      }
-    ];
+  <!-- Include events data -->
+  <script src="eventsData.js"></script>
 
-    function isThisWeek(dateString) {
+  <script>
+    function formatDate(dateString) {
       const eventDate = new Date(dateString);
-      const today = new Date('2025-08-06');
-      const weekFromNow = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-      return eventDate >= today && eventDate <= weekFromNow;
+      const today = new Date('2025-08-06'); // Current date
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      
+      if (eventDate.toDateString() === today.toDateString()) {
+        return 'Today';
+      } else if (eventDate.toDateString() === tomorrow.toDateString()) {
+        return 'Tomorrow';
+      } else {
+        return eventDate.toLocaleDateString('en-GB', { 
+          month: 'short', 
+          day: 'numeric' 
+        });
+      }
     }
 
-    function renderEvents() {
+    function eventMatches(event, query, tag) {
+      const searchText = (event.title + ' ' + event.description + ' ' + event.tags.join(' ')).toLowerCase();
+      const matchesText = !query || searchText.includes(query.toLowerCase());
+
+      if (tag === "all") return matchesText;
+      
+      const matchesTag = event.tags.some(eventTag => 
+        eventTag.toLowerCase().includes(tag.toLowerCase()) || 
+        tag.toLowerCase().includes(eventTag.toLowerCase())
+      );
+
+      return matchesText && matchesTag;
+    }
+
+    function renderEvents(events) {
       const grid = document.getElementById('eventsGrid');
       
-      // Sort events by date
-      const sortedEvents = [...popupEvents].sort((a, b) => new Date(a.date) - new Date(b.date));
-      
-      grid.innerHTML = sortedEvents.map(event => {
-        const thisWeekTag = isThisWeek(event.date) ? '<span class="tag this-week">THIS WEEK 🔥</span>' : '';
-        
+      if (events.length === 0) {
+        grid.innerHTML = '<div class="no-results">No pop-up events found.</div>';
+        return;
+      }
+
+      grid.innerHTML = events.map(event => {
+        const tagsHtml = event.tags.map(tag => {
+          let tagClass = 'tag';
+          if (tag === 'THIS WEEK 🔥') tagClass += ' this-week';
+          else if (tag === 'POP-UP') tagClass += ' pop-up';
+          
+          return `<span class="${tagClass}">${tag}</span>`;
+        }).join('');
+
         return `
           <div class="event-card">
             <img src="${event.image}" alt="${event.title}" class="event-image">
-            <div class="event-date">${event.dateDisplay}</div>
+            <div class="event-date">${formatDate(event.date)}</div>
             <div class="event-content">
               <h3 class="event-title">${event.title}</h3>
               <p class="event-desc">${event.description}</p>
               <div class="tags">
-                ${thisWeekTag}
-                <span class="tag popup">POP-UP</span>
+                ${tagsHtml}
               </div>
             </div>
           </div>
@@ -352,7 +279,36 @@
       }).join('');
     }
 
-    renderEvents();
+    function filterAndRenderEvents() {
+      const query = document.getElementById("searchInput").value.trim();
+      const tag = document.getElementById("tagFilter").value;
+
+      // Filter events that have "POP-UP" tag
+      let popupEvents = eventsData.filter(event => 
+        event.tags.includes("POP-UP")
+      );
+
+      // Apply search and tag filters
+      if (query || tag !== "all") {
+        popupEvents = popupEvents.filter(event => eventMatches(event, query, tag));
+      }
+
+      // Sort by date (upcoming first)
+      popupEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      renderEvents(popupEvents);
+    }
+
+    // Initial render
+    filterAndRenderEvents();
+
+    // Event listeners
+    document.getElementById("searchInput").addEventListener("keypress", function (e) {
+      if (e.key === "Enter") filterAndRenderEvents();
+    });
+
+    document.getElementById("searchInput").addEventListener("input", filterAndRenderEvents);
+    document.getElementById("tagFilter").addEventListener("change", filterAndRenderEvents);
   </script>
 </body>
 </html>
