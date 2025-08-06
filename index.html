@@ -310,7 +310,14 @@
     function cardMatches(card, query, tag) {
       const text = card.innerText.toLowerCase();
       const matchesText = !query || text.includes(query.toLowerCase());
-      const matchesTag = tag === "all" || text.includes(tag.toLowerCase());
+
+      if (tag === "all") return matchesText;
+
+      // We'll check tags by the presence of a .tag element inside the card
+      const tags = Array.from(card.querySelectorAll('.tag')).map(t => t.innerText.toLowerCase());
+      // Also include tag filter values that might be in the text if no tags found
+      const matchesTag = tags.length ? tags.includes(tag.toLowerCase()) : text.includes(tag.toLowerCase());
+
       return matchesText && matchesTag;
     }
 
@@ -328,7 +335,12 @@
       }
       const wrapper = document.createElement('div');
       wrapper.className = 'events-grid';
-      cards.forEach(card => wrapper.appendChild(card));
+
+      // Clone cards to avoid moving them from their source documents
+      cards.forEach(card => {
+        wrapper.appendChild(card.cloneNode(true));
+      });
+
       container.appendChild(wrapper);
     }
 
@@ -336,13 +348,21 @@
       const query = document.getElementById("searchInput").value.trim().toLowerCase();
       const tag = document.getElementById("tagFilter").value;
 
-      if (!query && tag === "all") return;
+      if (!query && tag === "all") {
+        // If no search/filter, show homepage categories grid again
+        const grid = document.querySelector('.category-grid');
+        if (grid) grid.style.display = 'grid';
+        document.getElementById("searchResults").innerHTML = '';
+        return;
+      }
 
+      // Fetch cards from both pages
       const [dropCards, popupCards] = await Promise.all([
         fetchEventCardsFrom('drops.html', '.event-card'),
         fetchEventCardsFrom('popups.html', '.card')
       ]);
 
+      // Combine and filter cards based on query and tag
       const allCards = [...dropCards, ...popupCards].filter(card => cardMatches(card, query, tag));
 
       hideHomepageGrid();
