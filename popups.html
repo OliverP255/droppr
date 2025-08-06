@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DROPPR - Pop-ups</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: #000;
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 0 30px;
+      border-bottom: 1px solid #333;
+      position: relative;
+    }
+
+    .logo {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 3rem;
+      letter-spacing: -1px;
+      color: #fff;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      background: #333;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: #555;
+    }
+
+    .page-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 2.5rem;
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      padding: 20px 0 60px;
+    }
+
+    .event-card {
+      background: #111;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #333;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .event-card:hover {
+      transform: translateY(-5px);
+      border-color: #555;
+      box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
+    }
+
+    .event-image {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .event-content {
+      padding: 20px;
+    }
+
+    .event-date {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .event-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .event-desc {
+      font-size: 0.95rem;
+      color: #ccc;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 6px 12px;
+      border-radius: 15px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tag.this-week {
+      background: #ff4444;
+      color: #fff;
+    }
+
+    .tag.popup {
+      background: #0066cc;
+      color: #fff;
+    }
+
+    footer {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      padding: 30px;
+      border-top: 1px solid #333;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="back-btn">← Return to Home</a>
+    <div class="container">
+      <h1 class="logo">DROPPR</h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <h2 class="page-title">Pop-Ups</h2>
+    <div class="events-grid" id="eventsGrid"></div>
+  </div>
+
+  <footer>
+    &copy; 2025 DROPPR. Built for streetwear enthusiasts.
+  </footer>
+
+  <script>
+    const popupEvents = [
+      {
+        title: "Stussy x Nike Pop-up Experience",
+        description: "Exclusive pop-up featuring the latest Stussy x Nike collaboration with interactive installations and limited releases.",
+        image: "https://hypebeast.com/image/2023/07/stussy-nike-air-force-1-low-fossil-stone-release-info-1.jpg",
+        date: "2025-08-07",
+        dateDisplay: "Tomorrow"
+      },
+      {
+        title: "Corteiz Pop-up Store - Shoreditch",
+        description: "Three-day exclusive pop-up featuring the latest Corteiz drops with limited edition pieces only available in-store.",
+        image: "https://hypebeast.com/image/2023/07/corteiz-crtz-rtw-launch-london-pop-up-1.jpg",
+        date: "2025-08-08",
+        dateDisplay: "Aug 8"
+      },
+      {
+        title: "Off-White Sample Sale Pop-up",
+        description: "Rare sample sale featuring Virgil Abloh archive pieces and unreleased Off-White designs at Camden Market.",
+        image: "https://hypebeast.com/image/2023/05/off-white-virgil-abloh-archive-sample-sale-1.jpg",
+        date: "2025-08-09",
+        dateDisplay: "Aug 9"
+      },
+      {
+        title: "GALLERY DEPT. Artist Showcase",
+        description: "Interactive pop-up combining art exhibition with exclusive GALLERY DEPT. pieces and customization station.",
+        image: "https://hypebeast.com/image/2023/04/gallery-dept-los-angeles-pop-up-1.jpg",
+        date: "2025-08-10",
+        dateDisplay: "Aug 10"
+      },
+      {
+        title: "Stone Island Shadow Project Launch",
+        description: "Tech-focused pop-up showcasing the latest Shadow Project innovations with AR try-on experiences.",
+        image: "https://hypebeast.com/image/2023/06/stone-island-shadow-project-ss23-1.jpg",
+        date: "2025-08-12",
+        dateDisplay: "Aug 12"
+      },
+      {
+        title: "Kith x New Balance Pop-up Lab",
+        description: "Collaborative space featuring the new Kith x New Balance collection with sneaker customization workshop.",
+        image: "https://hypebeast.com/image/2023/08/kith-new-balance-990v6-united-arrows-1.jpg",
+        date: "2025-08-14",
+        dateDisplay: "Aug 14"
+      },
+      {
+        title: "AWGE x Under Armour Experience",
+        description: "A$AP Rocky's AWGE collective presents exclusive Under Armour collaborations in immersive warehouse setting.",
+        image: "https://hypebeast.com/image/2023/03/awge-under-armour-socks-release-1.jpg",
+        date: "2025-08-15",
+        dateDisplay: "Aug 15"
+      },
+      {
+        title: "Fear of God ESSENTIALS Pop-up",
+        description: "Minimalist pop-up space showcasing the latest ESSENTIALS collection with exclusive London colorways.",
+        image: "https://hypebeast.com/image/2023/09/fear-of-god-essentials-fall-2023-1.jpg",
+        date: "2025-08-16",
+        dateDisplay: "Aug 16"
+      },
+      {
+        title: "Pleasures x Crocs Collaboration Launch",
+        description: "Punk-inspired pop-up featuring the unexpected Pleasures x Crocs collaboration with live tattooing.",
+        image: "https://hypebeast.com/image/2023/07/pleasures-crocs-collaboration-classic-clog-1.jpg",
+        date: "2025-08-18",
+        dateDisplay: "Aug 18"
+      },
+      {
+        title: "HUMAN MADE Heart Pop-up Cafe",
+        description: "Nigo's HUMAN MADE opens themed cafe pop-up with exclusive merchandise and Japanese street food.",
+        image: "https://hypebeast.com/image/2023/08/human-made-nigo-heart-collection-1.jpg",
+        date: "2025-08-20",
+        dateDisplay: "Aug 20"
+      },
+      {
+        title: "Brain Dead Optical Pop-up",
+        description: "Surreal pop-up experience featuring Brain Dead's latest optical collection with virtual reality elements.",
+        image: "https://hypebeast.com/image/2023/05/brain-dead-optical-collection-1.jpg",
+        date: "2025-08-22",
+        dateDisplay: "Aug 22"
+      },
+      {
+        title: "NEIGHBORHOOD x Converse Workshop",
+        description: "DIY workshop pop-up where visitors can customize NEIGHBORHOOD x Converse collaborations.",
+        image: "https://hypebeast.com/image/2023/04/neighborhood-converse-chuck-70-1.jpg",
+        date: "2025-08-25",
+        dateDisplay: "Aug 25"
+      },
+      {
+        title: "Rhude Racing Pop-up Garage",
+        description: "Automotive-themed pop-up showcasing Rhude's racing-inspired collection with vintage car displays.",
+        image: "https://hypebeast.com/image/2023/06/rhude-racing-collection-1.jpg",
+        date: "2025-08-28",
+        dateDisplay: "Aug 28"
+      },
+      {
+        title: "Union x Jordan Pop-up Museum",
+        description: "Museum-style pop-up celebrating Union LA's Jordan collaborations with historical sneaker exhibits.",
+        image: "https://hypebeast.com/image/2023/07/union-jordan-4-desert-moss-release-1.jpg",
+        date: "2025-09-01",
+        dateDisplay: "Sep 1"
+      },
+      {
+        title: "Chrome Hearts Jewelry Exhibition",
+        description: "Luxury pop-up exhibition featuring Chrome Hearts' finest jewelry pieces and leather goods.",
+        image: "https://hypebeast.com/image/2023/05/chrome-hearts-jewelry-collection-1.jpg",
+        date: "2025-09-05",
+        dateDisplay: "Sep 5"
+      },
+      {
+        title: "WTAPS Military Surplus Pop-up",
+        description: "Military-inspired pop-up featuring WTAPS latest collection in authentic army surplus store setting.",
+        image: "https://hypebeast.com/image/2023/08/wtaps-military-collection-1.jpg",
+        date: "2025-09-08",
+        dateDisplay: "Sep 8"
+      },
+      {
+        title: "Mastermind Japan Dark Pop-up",
+        description: "Gothic pop-up experience showcasing Mastermind Japan's signature skull motifs in blackout space.",
+        image: "https://hypebeast.com/image/2023/06/mastermind-japan-collection-1.jpg",
+        date: "2025-09-12",
+        dateDisplay: "Sep 12"
+      },
+      {
+        title: "BAPE Shark Pop-up Aquarium",
+        description: "Aquatic-themed pop-up featuring BAPE's shark hoodie collection with live shark tank installation.",
+        image: "https://hypebeast.com/image/2023/07/bape-shark-hoodie-collection-1.jpg",
+        date: "2025-09-15",
+        dateDisplay: "Sep 15"
+      },
+      {
+        title: "Carhartt WIP Workshop Pop-up",
+        description: "Functional workshop pop-up where visitors can learn workwear craftsmanship and customize Carhartt WIP pieces.",
+        image: "https://hypebeast.com/image/2023/08/carhartt-wip-collection-1.jpg",
+        date: "2025-09-20",
+        dateDisplay: "Sep 20"
+      },
+      {
+        title: "Kapital Sashiko Experience",
+        description: "Traditional Japanese pop-up teaching sashiko repair techniques on Kapital denim and textiles.",
+        image: "https://hypebeast.com/image/2023/09/kapital-sashiko-denim-1.jpg",
+        date: "2025-09-25",
+        dateDisplay: "Sep 25"
+      }
+    ];
+
+    function isThisWeek(dateString) {
+      const eventDate = new Date(dateString);
+      const today = new Date('2025-08-06');
+      const weekFromNow = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+      return eventDate >= today && eventDate <= weekFromNow;
+    }
+
+    function renderEvents() {
+      const grid = document.getElementById('eventsGrid');
+      
+      // Sort events by date
+      const sortedEvents = [...popupEvents].sort((a, b) => new Date(a.date) - new Date(b.date));
+      
+      grid.innerHTML = sortedEvents.map(event => {
+        const thisWeekTag = isThisWeek(event.date) ? '<span class="tag this-week">THIS WEEK 🔥</span>' : '';
+        
+        return `
+          <div class="event-card">
+            <img src="${event.image}" alt="${event.title}" class="event-image">
+            <div class="event-date">${event.dateDisplay}</div>
+            <div class="event-content">
+              <h3 class="event-title">${event.title}</h3>
+              <p class="event-desc">${event.description}</p>
+              <div class="tags">
+                ${thisWeekTag}
+                <span class="tag popup">POP-UP</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    renderEvents();
+  </script>
+</body>
+</html>

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,17 +20,18 @@
       background-color: #000;
       color: #fff;
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 0 20px;
     }
 
     header {
       text-align: center;
-      padding: 40px 0 20px;
+      padding: 40px 0 30px;
       border-bottom: 1px solid #333;
       position: relative;
     }
@@ -49,24 +49,27 @@
       margin-top: 8px;
     }
 
-	.archive-btn {
-	  position: absolute;
-	  top: 30px;
-	  right: 30px;
-	  z-index: 10; /* Add this */
-	  background: #333;
-	  color: #fff;
-	  padding: 10px 16px;
-	  border-radius: 4px;
-	  font-size: 14px;
-	  text-decoration: none;
-	  display: inline-block;
-	  text-align: center;
-	  line-height: 1;
-	  cursor: pointer;
-	}
+    .archive-btn {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      z-index: 10;
+      background: #333;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
 
-
+    .archive-btn:hover {
+      background: #555;
+    }
 
     .search-bar {
       display: flex;
@@ -86,211 +89,275 @@
       font-size: 14px;
     }
 
-    .section {
-      margin: 60px 0;
+    .main-content {
+      padding: 60px 0;
+      min-height: 70vh;
     }
 
-    .section-title {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 24px;
-    }
-
-    .search-results-title {
-      text-align: center;
-      font-size: 1.4rem;
-      margin: 20px 0 40px;
-      color: #aaa;
-    }
-
-    .happening-today {
-      border: 2px solid red;
-      padding: 20px;
-      border-radius: 12px;
-    }
-
-    .articles {
+    .category-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      height: 500px;
     }
 
-    .card {
-      background: #111;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid #333;
-      transition: all 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-2px);
-      border-color: #555;
-    }
-
-    .card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .card-content {
-      padding: 16px;
-    }
-
-    .card-title {
-      font-family: 'Unbounded', sans-serif;
-      font-size: 1.3rem;
-      margin-bottom: 8px;
-    }
-
-    .card-desc {
-      font-size: 0.95rem;
-      color: #fff;
-    }
-
-    .tags {
-      margin-top: 12px;
-    }
-
-    .tag {
-      display: inline-block;
-      background: #444;
-      color: #fff;
-      font-size: 12px;
-      padding: 4px 10px;
+    .category-box {
+      position: relative;
       border-radius: 12px;
-      margin: 0 6px 6px 0;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      background: #111;
+      border: 2px solid #333;
     }
 
-    .tag.red { background: #ff4444; }
-    .tag.blue { background: #0066cc; }
-    .tag.grey { background: #888; }
+    .category-box:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: #fff;
+      box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+    }
+
+    .category-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.4s ease;
+      filter: brightness(0.7);
+    }
+
+    .category-box:hover .category-image {
+      filter: brightness(0.9);
+      transform: scale(1.1);
+    }
+
+    .category-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.4s ease;
+    }
+
+    .category-box:hover .category-overlay {
+      background: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 100%);
+    }
+
+    .category-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: underline;
+      text-underline-offset: 10px;
+      text-decoration-thickness: 3px;
+      transition: all 0.4s ease;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    }
+
+    .category-box:hover .category-title {
+      transform: scale(1.1);
+      text-shadow: 4px 4px 8px rgba(0,0,0,0.9);
+    }
 
     footer {
       text-align: center;
       color: #666;
       font-size: 14px;
       padding: 30px;
+      border-top: 1px solid #333;
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+
+    .card, .event-card {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover, .event-card:hover {
+      transform: translateY(-4px);
+      border-color: #555;
+    }
+
+    .card img, .event-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-content, .event-content {
+      padding: 16px;
+    }
+
+    .card-title, .event-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .card-desc, .event-desc {
+      font-size: 0.95rem;
+      color: #ccc;
+      margin-bottom: 12px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 6px 12px;
+      border-radius: 15px;
+      font-weight: 500;
+      background: #444;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 768px) {
+      .category-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        height: auto;
+      }
+
+      .category-box {
+        height: 250px;
+      }
+
+      .category-title {
+        font-size: 2rem;
+      }
+
+      .logo {
+        font-size: 2.5rem;
+      }
+
+      .archive-btn {
+        position: relative;
+        top: 0;
+        right: 0;
+        margin-top: 20px;
+      }
     }
   </style>
 </head>
 <body>
-	<a href="droppr-archive.html" class="archive-btn">View Archive</a>	
+  <a href="archive.html" class="archive-btn">View Archive</a>
   <header>
     <div class="container">
       <h1 class="logo">DROPPR</h1>
       <p class="subtitle">Hear about drops, pop-ups & fashion events before anyone else.</p>
     </div>
+    <div class="container">
+      <div class="search-bar">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search events...">
+        <select class="filter-select" id="tagFilter">
+          <option value="all">All Tags</option>
+          <option value="this-week">This Week</option>
+          <option value="archived">Archived</option>
+          <option value="pop-up">Pop-Up</option>
+          <option value="drop">Drop</option>
+        </select>
+      </div>
+    </div>
   </header>
 
   <div class="container">
-    <div class="search-bar">
-      <input type="text" class="search-input" id="searchInput" placeholder="Search events...">
-      <select class="filter-select" id="tagFilter">
-        <option value="all">All Tags</option>
-        <option value="today">Happening Today</option>
-        <option value="upcoming">Upcoming</option>
-      </select>
+    <div id="searchResults"></div>
+    <div class="main-content">
+      <div class="category-grid">
+        <div class="category-box" onclick="window.location.href='popups.html'">
+          <img src="https://highxtar.com/wp-content/uploads/2023/03/highxtar-corteiz-nuevo-supreme-1.jpg" alt="Pop-ups" class="category-image">
+          <div class="category-overlay">
+            <h2 class="category-title">Pop-Ups</h2>
+          </div>
+        </div>
+        <div class="category-box" onclick="window.location.href='drops.html'">
+          <img src="https://culted.com/wp-content/uploads/2023/06/Untitled-1-30.jpg" alt="Drops" class="category-image">
+          <div class="category-overlay">
+            <h2 class="category-title">Drops</h2>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div id="searchTitle" class="search-results-title" style="display: none;">Search Results</div>
-
-    <section class="section happening-today" id="todaySection">
-      <h2 class="section-title">Happening Today 🔥</h2>
-      <div class="articles" id="todayEvents"></div>
-    </section>
-
-    <section class="section" id="upcomingSection">
-      <h2 class="section-title">Upcoming Events</h2>
-      <div class="articles" id="upcomingEvents"></div>
-    </section>
   </div>
+
+  <script>
+    async function fetchEventCardsFrom(url, selector) {
+      const res = await fetch(url);
+      const html = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      return Array.from(doc.querySelectorAll(selector));
+    }
+
+    function cardMatches(card, query, tag) {
+      const text = card.innerText.toLowerCase();
+      const matchesText = !query || text.includes(query.toLowerCase());
+      const matchesTag = tag === "all" || text.includes(tag.toLowerCase());
+      return matchesText && matchesTag;
+    }
+
+    function hideHomepageGrid() {
+      const grid = document.querySelector('.category-grid');
+      if (grid) grid.style.display = 'none';
+    }
+
+    function renderSearchResults(cards) {
+      const container = document.getElementById("searchResults");
+      container.innerHTML = '';
+      if (cards.length === 0) {
+        container.innerHTML = '<p style="text-align:center;color:#888;">No results found.</p>';
+        return;
+      }
+      const wrapper = document.createElement('div');
+      wrapper.className = 'events-grid';
+      cards.forEach(card => wrapper.appendChild(card));
+      container.appendChild(wrapper);
+    }
+
+    async function handleSearch() {
+      const query = document.getElementById("searchInput").value.trim().toLowerCase();
+      const tag = document.getElementById("tagFilter").value;
+
+      if (!query && tag === "all") return;
+
+      const [dropCards, popupCards] = await Promise.all([
+        fetchEventCardsFrom('drops.html', '.event-card'),
+        fetchEventCardsFrom('popups.html', '.card')
+      ]);
+
+      const allCards = [...dropCards, ...popupCards].filter(card => cardMatches(card, query, tag));
+
+      hideHomepageGrid();
+      renderSearchResults(allCards);
+    }
+
+    document.getElementById("searchInput").addEventListener("keypress", function (e) {
+      if (e.key === "Enter") handleSearch();
+    });
+
+    document.getElementById("tagFilter").addEventListener("change", handleSearch);
+  </script>
 
   <footer>
     &copy; 2025 DROPPR. Built for streetwear enthusiasts.
   </footer>
-
-  <script>
-    const events = [
-      {
-        title: "Corteiz Pop-up Store Opening - Shoreditch",
-        description: "Exclusive pop-up featuring the latest Corteiz drops with limited edition pieces only available in-store.",
-        img: "https://hypebeast.com/image/2023/07/corteiz-crtz-rtw-launch-london-pop-up-1.jpg",
-        tags: ["pop-up", "today"]
-      },
-      {
-        title: "Corteiz x Nike Collaboration Launch",
-        description: "First-ever official collaboration between Corteiz and Nike drops today at select retailers.",
-        img: "https://hypebeast.com/image/2023/03/corteiz-nike-air-max-95-release-info-0.jpg",
-        tags: ["drop", "today"]
-      },
-      {
-        title: "Corteiz Warehouse Rave",
-        description: "Underground warehouse party celebrating the brand's 5th anniversary with exclusive merch drops.",
-        img: "https://images.complex.com/complex/images/c_crop,h_1312,w_2334,x_0,y_0/c_fill,dpr_auto,f_auto,q_auto,w_1400/fl_lossy,pg_1/vv5elotlnv6vuvmbudv2/corteiz-party-2023",
-        tags: ["concert", "upcoming"]
-      },
-      {
-        title: "Corteiz Sample Sale",
-        description: "Rare sample sale featuring archive pieces and unreleased designs at discounted prices.",
-        img: "https://i.pinimg.com/originals/fb/44/6e/fb446efb2e79eb37667fe8f4b3b0dbdf.jpg",
-        tags: ["drop", "upcoming"]
-      }
-    ];
-
-    function renderEvents() {
-      const todayEvents = document.getElementById("todayEvents");
-      const upcomingEvents = document.getElementById("upcomingEvents");
-      const searchTitle = document.getElementById("searchTitle");
-
-      todayEvents.innerHTML = '';
-      upcomingEvents.innerHTML = '';
-
-      const search = document.getElementById("searchInput").value.toLowerCase();
-      const tagFilter = document.getElementById("tagFilter").value;
-
-      let matchedToday = 0;
-      let matchedUpcoming = 0;
-
-      events.forEach(event => {
-        const matchesSearch = event.title.toLowerCase().includes(search) || event.description.toLowerCase().includes(search);
-        const matchesTag = tagFilter === "all" || event.tags.includes(tagFilter);
-
-        if (matchesSearch && matchesTag) {
-          const card = `
-            <div class="card">
-              <img src="${event.img}" alt="${event.title}">
-              <div class="card-content">
-                <h3 class="card-title">${event.title}</h3>
-                <p class="card-desc">${event.description}</p>
-                <div class="tags">
-                  ${event.tags.map(tag => `<span class="tag ${tag === 'today' ? 'red' : tag === 'upcoming' ? 'blue' : 'grey'}">${tag}</span>`).join('')}
-                </div>
-              </div>
-            </div>
-          `;
-          if (event.tags.includes("today")) {
-            todayEvents.innerHTML += card;
-            matchedToday++;
-          } else if (event.tags.includes("upcoming")) {
-            upcomingEvents.innerHTML += card;
-            matchedUpcoming++;
-          }
-        }
-      });
-
-      const isSearching = document.getElementById("searchInput").value.length > 0 || tagFilter !== "all";
-
-      document.getElementById("todaySection").style.display = isSearching && matchedToday === 0 ? "none" : "block";
-      document.getElementById("upcomingSection").style.display = isSearching && matchedUpcoming === 0 ? "none" : "block";
-      searchTitle.style.display = isSearching ? "block" : "none";
-    }
-
-    document.getElementById("searchInput").addEventListener("input", renderEvents);
-    document.getElementById("tagFilter").addEventListener("change", renderEvents);
-
-    renderEvents();
-  </script>
 </body>
 </html>
