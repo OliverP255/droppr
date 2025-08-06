@@ -2,224 +2,53 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DROPPR - London Streetwear Drops</title>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Space Grotesk', sans-serif;
-      background-color: #000;
-      color: #fff;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    header {
-      text-align: center;
-      padding: 40px 0 30px;
-      border-bottom: 1px solid #333;
-      position: relative;
-    }
-
-    .logo {
-      font-family: 'Unbounded', sans-serif;
-      font-size: 3rem;
-      letter-spacing: -1px;
-      color: #fff;
-    }
-
-    .subtitle {
-      font-size: 1.2rem;
-      color: #FFFFFF;
-      margin-top: 8px;
-    }
-
-    .archive-btn {
-      position: absolute;
-      top: 30px;
-      right: 30px;
-      z-index: 10;
-      background: #333;
-      color: #fff;
-      padding: 10px 16px;
-      border-radius: 4px;
-      font-size: 14px;
-      text-decoration: none;
-      display: inline-block;
-      text-align: center;
-      line-height: 1;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .archive-btn:hover {
-      background: #555;
-    }
-
-    .search-bar {
-      display: flex;
-      gap: 12px;
-      margin: 30px 0;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .search-input,
-    .filter-select {
-      background: #111;
-      border: 1px solid #444;
-      color: #fff;
-      padding: 10px;
-      border-radius: 4px;
-      font-size: 14px;
-    }
-
-    .main-content {
-      padding: 60px 0;
-      min-height: 70vh;
-    }
-
-    .category-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-      height: 500px;
-    }
-
-    .category-box {
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: all 0.4s ease;
-      background: #111;
-      border: 2px solid #333;
-    }
-
-    .category-box:hover {
-      transform: translateY(-8px) scale(1.02);
-      border-color: #fff;
-      box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
-    }
-
-    .category-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: all 0.4s ease;
-      filter: brightness(0.7);
-    }
-
-    .category-box:hover .category-image {
-      filter: brightness(0.9);
-      transform: scale(1.1);
-    }
-
-    .category-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.4s ease;
-    }
-
-    .category-box:hover .category-overlay {
-      background: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 100%);
-    }
-
-    .category-title {
-      font-family: 'Unbounded', sans-serif;
-      font-size: 2.5rem;
-      font-weight: 700;
-      text-align: center;
-      text-decoration: underline;
-      text-underline-offset: 10px;
-      text-decoration-thickness: 3px;
-      transition: all 0.4s ease;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-    }
-
-    .category-box:hover .category-title {
-      transform: scale(1.1);
-      text-shadow: 4px 4px 8px rgba(0,0,0,0.9);
-    }
-
-    footer {
-      text-align: center;
-      color: #666;
-      font-size: 14px;
-      padding: 30px;
-      border-top: 1px solid #333;
-    }
-
+    /* Your existing CSS here, plus: */
     .events-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
       gap: 25px;
       margin-top: 40px;
     }
-
-    .card, .event-card {
+    .event-card {
       background: #111;
       border: 1px solid #333;
       border-radius: 12px;
       overflow: hidden;
       transition: all 0.3s ease;
+      cursor: pointer;
     }
-
-    .card:hover, .event-card:hover {
+    .event-card:hover {
       transform: translateY(-4px);
       border-color: #555;
     }
-
-    .card img, .event-card img {
+    .event-card img {
       width: 100%;
       height: 200px;
       object-fit: cover;
     }
-
-    .card-content, .event-content {
+    .event-content {
       padding: 16px;
+      color: #ccc;
     }
-
-    .card-title, .event-title {
+    .event-title {
       font-family: 'Unbounded', sans-serif;
       font-size: 1.2rem;
       margin-bottom: 8px;
+      color: #fff;
     }
-
-    .card-desc, .event-desc {
+    .event-desc {
       font-size: 0.95rem;
-      color: #ccc;
       margin-bottom: 12px;
     }
-
     .tags {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
     }
-
     .tag {
       font-size: 11px;
       padding: 6px 12px;
@@ -227,33 +56,7 @@
       font-weight: 500;
       background: #444;
       text-transform: uppercase;
-    }
-
-    @media (max-width: 768px) {
-      .category-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        height: auto;
-      }
-
-      .category-box {
-        height: 250px;
-      }
-
-      .category-title {
-        font-size: 2rem;
-      }
-
-      .logo {
-        font-size: 2.5rem;
-      }
-
-      .archive-btn {
-        position: relative;
-        top: 0;
-        right: 0;
-        margin-top: 20px;
-      }
+      color: #eee;
     }
   </style>
 </head>
@@ -266,7 +69,7 @@
     </div>
     <div class="container">
       <div class="search-bar">
-        <input type="text" class="search-input" id="searchInput" placeholder="Search events...">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search events..." />
         <select class="filter-select" id="tagFilter">
           <option value="all">All Tags</option>
           <option value="this-week">This Week</option>
@@ -283,13 +86,13 @@
     <div class="main-content">
       <div class="category-grid">
         <div class="category-box" onclick="window.location.href='popups.html'">
-          <img src="https://highxtar.com/wp-content/uploads/2023/03/highxtar-corteiz-nuevo-supreme-1.jpg" alt="Pop-ups" class="category-image">
+          <img src="https://highxtar.com/wp-content/uploads/2023/03/highxtar-corteiz-nuevo-supreme-1.jpg" alt="Pop-ups" class="category-image" />
           <div class="category-overlay">
             <h2 class="category-title">Pop-Ups</h2>
           </div>
         </div>
         <div class="category-box" onclick="window.location.href='drops.html'">
-          <img src="https://culted.com/wp-content/uploads/2023/06/Untitled-1-30.jpg" alt="Drops" class="category-image">
+          <img src="https://culted.com/wp-content/uploads/2023/06/Untitled-1-30.jpg" alt="Drops" class="category-image" />
           <div class="category-overlay">
             <h2 class="category-title">Drops</h2>
           </div>
@@ -298,86 +101,121 @@
     </div>
   </div>
 
+  <footer>
+    &copy; 2025 DROPPR. Built for streetwear enthusiasts.
+  </footer>
+
   <script>
-    async function fetchEventCardsFrom(url, selector) {
-      const res = await fetch(url);
-      const html = await res.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      return Array.from(doc.querySelectorAll(selector));
-    }
+    // Your event data all in one place:
+    const events = [
+      {
+        id: "drop1",
+        title: "Supreme x Corteiz Drop",
+        desc: "Limited edition streetwear drop with Supreme and Corteiz collaboration.",
+        image: "https://highxtar.com/wp-content/uploads/2023/03/highxtar-corteiz-nuevo-supreme-1.jpg",
+        tags: ["drop", "this-week"],
+        url: "drops.html#drop1"
+      },
+      {
+        id: "popup1",
+        title: "London Pop-Up Event",
+        desc: "Exclusive pop-up featuring top streetwear brands.",
+        image: "https://example.com/pop-up1.jpg",
+        tags: ["pop-up", "archived"],
+        url: "popups.html#popup1"
+      },
+      {
+        id: "drop2",
+        title: "New Drop from Culted",
+        desc: "Upcoming drop event showcasing new streetwear trends.",
+        image: "https://culted.com/wp-content/uploads/2023/06/Untitled-1-30.jpg",
+        tags: ["drop"],
+        url: "drops.html#drop2"
+      }
+      // add as many events as you want here
+    ];
 
-    function cardMatches(card, query, tag) {
-      const text = card.innerText.toLowerCase();
-      const matchesText = !query || text.includes(query.toLowerCase());
-
-      if (tag === "all") return matchesText;
-
-      // We'll check tags by the presence of a .tag element inside the card
-      const tags = Array.from(card.querySelectorAll('.tag')).map(t => t.innerText.toLowerCase());
-      // Also include tag filter values that might be in the text if no tags found
-      const matchesTag = tags.length ? tags.includes(tag.toLowerCase()) : text.includes(tag.toLowerCase());
-
-      return matchesText && matchesTag;
-    }
-
-    function hideHomepageGrid() {
-      const grid = document.querySelector('.category-grid');
-      if (grid) grid.style.display = 'none';
-    }
-
-    function renderSearchResults(cards) {
+    function renderEvents(filteredEvents) {
       const container = document.getElementById("searchResults");
-      container.innerHTML = '';
-      if (cards.length === 0) {
+      container.innerHTML = "";
+      if (filteredEvents.length === 0) {
         container.innerHTML = '<p style="text-align:center;color:#888;">No results found.</p>';
         return;
       }
-      const wrapper = document.createElement('div');
-      wrapper.className = 'events-grid';
+      // Hide homepage category grid:
+      const grid = document.querySelector(".category-grid");
+      if (grid) grid.style.display = "none";
 
-      // Clone cards to avoid moving them from their source documents
-      cards.forEach(card => {
-        wrapper.appendChild(card.cloneNode(true));
+      const gridDiv = document.createElement("div");
+      gridDiv.className = "events-grid";
+
+      filteredEvents.forEach(event => {
+        const card = document.createElement("a");
+        card.className = "event-card";
+        card.href = event.url;
+        card.target = "_blank";
+
+        card.innerHTML = `
+          <img src="${event.image}" alt="${event.title}" />
+          <div class="event-content">
+            <h3 class="event-title">${event.title}</h3>
+            <p class="event-desc">${event.desc}</p>
+            <div class="tags">
+              ${event.tags.map(tag => `<span class="tag">${tag.toUpperCase()}</span>`).join("")}
+            </div>
+          </div>
+        `;
+        gridDiv.appendChild(card);
       });
 
-      container.appendChild(wrapper);
+      container.appendChild(gridDiv);
     }
 
-    async function handleSearch() {
-      const query = document.getElementById("searchInput").value.trim().toLowerCase();
+    function filterEvents(query, tagFilter) {
+      query = query.toLowerCase();
+      tagFilter = tagFilter.toLowerCase();
+
+      return events.filter(event => {
+        const matchesQuery =
+          !query ||
+          event.title.toLowerCase().includes(query) ||
+          event.desc.toLowerCase().includes(query) ||
+          event.tags.some(t => t.includes(query));
+
+        const matchesTag =
+          tagFilter === "all" ||
+          event.tags.includes(tagFilter);
+
+        return matchesQuery && matchesTag;
+      });
+    }
+
+    function resetHomepageGrid() {
+      const grid = document.querySelector(".category-grid");
+      if (grid) grid.style.display = "grid";
+      document.getElementById("searchResults").innerHTML = "";
+    }
+
+    function handleSearch() {
+      const query = document.getElementById("searchInput").value.trim();
       const tag = document.getElementById("tagFilter").value;
 
       if (!query && tag === "all") {
-        // If no search/filter, show homepage categories grid again
-        const grid = document.querySelector('.category-grid');
-        if (grid) grid.style.display = 'grid';
-        document.getElementById("searchResults").innerHTML = '';
+        resetHomepageGrid();
         return;
       }
 
-      // Fetch cards from both pages
-      const [dropCards, popupCards] = await Promise.all([
-        fetchEventCardsFrom('drops.html', '.event-card'),
-        fetchEventCardsFrom('popups.html', '.card')
-      ]);
-
-      // Combine and filter cards based on query and tag
-      const allCards = [...dropCards, ...popupCards].filter(card => cardMatches(card, query, tag));
-
-      hideHomepageGrid();
-      renderSearchResults(allCards);
+      const filtered = filterEvents(query, tag);
+      renderEvents(filtered);
     }
 
-    document.getElementById("searchInput").addEventListener("keypress", function (e) {
-      if (e.key === "Enter") handleSearch();
+    document.getElementById("searchInput").addEventListener("keypress", e => {
+      if (e.key === "Enter") {
+        handleSearch();
+      }
     });
 
     document.getElementById("tagFilter").addEventListener("change", handleSearch);
   </script>
-
-  <footer>
-    &copy; 2025 DROPPR. Built for streetwear enthusiasts.
-  </footer>
 </body>
 </html>
